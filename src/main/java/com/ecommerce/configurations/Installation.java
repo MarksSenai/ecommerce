@@ -1,14 +1,8 @@
 package com.ecommerce.configurations;
 
-import com.ecommerce.domains.Category;
-import com.ecommerce.domains.City;
-import com.ecommerce.domains.Product;
-import com.ecommerce.domains.State;
-import com.ecommerce.repositories.CategoryRepository;
-import com.ecommerce.repositories.CityRepository;
-import com.ecommerce.repositories.StateRepository;
-import com.ecommerce.resources.ProductRepository;
-import com.ecommerce.services.CategoryService;
+import com.ecommerce.domains.*;
+import com.ecommerce.domains.enums.UserType;
+import com.ecommerce.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +19,10 @@ public class Installation implements CommandLineRunner {
     private StateRepository stateRepository;
     @Autowired
     private CityRepository cityRepository;
+    @Autowired
+    private AddressRepository addressRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -62,5 +60,19 @@ public class Installation implements CommandLineRunner {
         stateRepository.saveAll(Arrays.asList(std1, std2));
         cityRepository.saveAll(Arrays.asList(ct1, ct2, ct3, ct4));
 
+        User u1 = new User(null, "Mary of Help", "maria@db.com",
+                "2254879642", UserType.CLIENT_PERSONAL_ENTITY);
+
+        u1.getPhones().addAll(Arrays.asList("213225566", "254136554"));
+
+        Address ad1 = new Address(null, "Rua 40", "300", "Jardins",
+                "326598", u1, ct1);
+        Address ad2 = new Address(null, "Rua 60", "300", "Laranjeiras",
+                "326599", u1, ct1);
+
+        u1.getAddressList().addAll(Arrays.asList(ad1, ad2));
+
+        userRepository.saveAll(Arrays.asList(u1));
+        addressRepository.saveAll(Arrays.asList(ad1, ad2));
     }
 }

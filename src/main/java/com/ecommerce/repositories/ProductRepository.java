@@ -1,4 +1,4 @@
-package com.ecommerce.resources;
+package com.ecommerce.repositories;
 
 import com.ecommerce.domains.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
