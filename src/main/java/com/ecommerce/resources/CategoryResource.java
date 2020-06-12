@@ -29,5 +29,4 @@ public class CategoryResource {
     public ResponseEntity<Category> create(@RequestBody Category category) {
         return ResponseEntity.ok().body(categorieService.createCategory(category));
     }
-
 }

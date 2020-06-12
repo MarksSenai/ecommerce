@@ -60,7 +60,7 @@ public class Installation implements CommandLineRunner {
         stateRepository.saveAll(Arrays.asList(std1, std2));
         cityRepository.saveAll(Arrays.asList(ct1, ct2, ct3, ct4));
 
-        User u1 = new User(null, "Mary of Help", "maria@db.com",
+        User u1 = new User(null, "Mary of Help", "maria3@db.com",
                 "2254879642", UserType.CLIENT_PERSONAL_ENTITY);
 
         u1.getPhones().addAll(Arrays.asList("213225566", "254136554"));

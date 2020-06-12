@@ -1,5 +1,6 @@
 package com.ecommerce.domains;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class Address implements Serializable {
     private String neighborhood;
     private String postCode;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

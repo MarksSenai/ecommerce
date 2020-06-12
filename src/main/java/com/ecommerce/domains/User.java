@@ -1,6 +1,7 @@
 package com.ecommerce.domains;
 
 import com.ecommerce.domains.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,11 +16,11 @@ public class User implements Serializable {
     private Long id;
     private String name;
 
-    @Column(unique=true)
     private String email;
     private String userCode;
     private Integer userType;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Address> addressList = new ArrayList<>();
 
