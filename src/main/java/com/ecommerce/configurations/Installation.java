@@ -1,6 +1,7 @@
 package com.ecommerce.configurations;
 
 import com.ecommerce.domains.*;
+import com.ecommerce.domains.OrderItem;
 import com.ecommerce.domains.enums.PaymentStatus;
 import com.ecommerce.domains.enums.UserType;
 import com.ecommerce.repositories.*;
@@ -29,7 +30,8 @@ public class Installation implements CommandLineRunner {
     private PaymentRepository paymentRepository;
     @Autowired
     private OrdersRepository ordersRepository;
-
+    @Autowired
+    private OrderItemRepository orderItemRepository;
     @Override
     public void run(String... args) throws Exception {
 
@@ -98,5 +100,17 @@ public class Installation implements CommandLineRunner {
         ordersRepository.saveAll(Arrays.asList(odr1, odr2));
         paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 
+        OrderItem oi1 = new OrderItem(odr1, p1, 0.00, 1, 2000.0);
+        OrderItem oi2 = new OrderItem(odr1, p3, 0.00, 2, 80.0);
+        OrderItem oi3 = new OrderItem(odr2, p2, 100.00, 1, 800.0);
+
+        odr1.getItems().addAll(Arrays.asList(oi1, oi2));
+        odr2.getItems().addAll(Arrays.asList(oi3));
+
+        p1.getItems().addAll(Arrays.asList(oi1));
+        p1.getItems().addAll(Arrays.asList(oi3));
+        p1.getItems().addAll(Arrays.asList(oi2));
+
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3));
     }
 }
