@@ -1,6 +1,7 @@
 package com.ecommerce.domains;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -21,10 +22,12 @@ public class Orders implements Serializable {
     @JsonFormat(pattern="dd/MM/yyyy HH:mm")
     private Date instant;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name= "user_id")
     private User user;
 
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Payment payment;
 
