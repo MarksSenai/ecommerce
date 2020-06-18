@@ -2,6 +2,7 @@ package com.ecommerce.domains;
 
 import com.ecommerce.domains.enums.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,7 +16,7 @@ public abstract class Payment implements Serializable {
     private Long id;
     private Integer status;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "order_id")
     @MapsId
