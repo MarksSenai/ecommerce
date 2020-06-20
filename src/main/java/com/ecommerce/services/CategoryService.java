@@ -6,6 +6,9 @@ import com.ecommerce.services.exceptions.DataIntegrityException;
 import com.ecommerce.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +28,12 @@ public class CategoryService {
 
     public List<Category> findCategoriesList() {
         return categoryRep.findAll();
+    }
+
+    public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction),
+                orderBy);
+        return categoryRep.findAll(pageRequest);
     }
 
     public Category createCategory(Category category) {

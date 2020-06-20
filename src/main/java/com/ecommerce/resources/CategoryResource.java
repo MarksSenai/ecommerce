@@ -4,6 +4,7 @@ import com.ecommerce.domains.Category;
 import com.ecommerce.dto.CategoryDTO;
 import com.ecommerce.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,6 +33,17 @@ public class CategoryResource {
         List<Category> list = categoryService.findCategoriesList();
         List<CategoryDTO> categoryDTOList = list.stream().map(obj ->
                 new CategoryDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(categoryDTOList);
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoryDTO>> findPages(
+            @RequestParam(value="page", defaultValue = "0") Integer page,
+            @RequestParam(value="linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value="orderBy", defaultValue = "name") String orderBy,
+            @RequestParam(value="direction", defaultValue = "ASC") String direction) {
+        Page<Category> list = categoryService.findPage(page, linesPerPage, orderBy, direction);
+        Page<CategoryDTO> categoryDTOList = list.map(obj -> new CategoryDTO(obj));
         return ResponseEntity.ok().body(categoryDTOList);
     }
 
