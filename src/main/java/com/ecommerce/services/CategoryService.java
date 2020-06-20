@@ -30,4 +30,9 @@ public class CategoryService {
         return categoryRep.save(category);
     }
 
+    public Category updaterCategory(Category category) {
+        findCategoryById(category.getId());
+        return categoryRep.save(category);
+    }
+
 }

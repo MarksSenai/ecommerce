@@ -25,6 +25,13 @@ public class CategoryResource {
         return ResponseEntity.created(uri).build();
     }
 
+    @RequestMapping(value="/{id}", method=RequestMethod.PUT)
+    public ResponseEntity<Void> update(@RequestBody Category category, @PathVariable Long id) {
+        category.setId(id);
+        category = categoryService.updaterCategory(category);
+        return ResponseEntity.noContent().build();
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Category>> findCategories() {
         return ResponseEntity.ok().body(categoryService.findCategoriesList());
