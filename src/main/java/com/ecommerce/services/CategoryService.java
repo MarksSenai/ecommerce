@@ -2,8 +2,10 @@ package com.ecommerce.services;
 
 import com.ecommerce.domains.Category;
 import com.ecommerce.repositories.CategoryRepository;
+import com.ecommerce.services.exceptions.DataIntegrityException;
 import com.ecommerce.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +35,15 @@ public class CategoryService {
     public Category updaterCategory(Category category) {
         findCategoryById(category.getId());
         return categoryRep.save(category);
+    }
+
+    public void deleteById(Long id) {
+        findCategoryById(id);
+        try {
+            categoryRep.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é possível excluir uma categoria que possua produtos cadastrados");
+        }
     }
 
 }

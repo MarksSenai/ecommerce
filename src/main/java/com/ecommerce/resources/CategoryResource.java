@@ -41,4 +41,11 @@ public class CategoryResource {
     public ResponseEntity<Category> findCategory(@PathVariable Long id) {
         return ResponseEntity.ok().body(categoryService.findCategoryById(id));
     }
+
+    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        categoryService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

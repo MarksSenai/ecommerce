@@ -1,5 +1,6 @@
 package com.ecommerce.resources.exceptions;
 
+import com.ecommerce.services.exceptions.DataIntegrityException;
 import com.ecommerce.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,13 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(System.currentTimeMillis(), status.value(),
                 "Not found", e.getMessage(), request.getRequestURI());
         return  ResponseEntity.status(status).body(err);
+    }
 
-
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity<StandardError> DataIntegrity(DataIntegrityException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(System.currentTimeMillis(), status.value(),
+                "Not found", e.getMessage(), request.getRequestURI());
+        return  ResponseEntity.status(status).body(err);
     }
 }
