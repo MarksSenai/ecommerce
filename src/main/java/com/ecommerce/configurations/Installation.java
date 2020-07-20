@@ -1,10 +1,28 @@
 package com.ecommerce.configurations;
 
-import com.ecommerce.domains.*;
+import com.ecommerce.domains.Address;
+import com.ecommerce.domains.BilletPayment;
+import com.ecommerce.domains.CardPayment;
+import com.ecommerce.domains.Category;
+import com.ecommerce.domains.City;
 import com.ecommerce.domains.OrderItem;
+import com.ecommerce.domains.Orders;
+import com.ecommerce.domains.Payment;
+import com.ecommerce.domains.Product;
+import com.ecommerce.domains.State;
+import com.ecommerce.domains.User;
 import com.ecommerce.domains.enums.PaymentStatus;
 import com.ecommerce.domains.enums.UserType;
-import com.ecommerce.repositories.*;
+import com.ecommerce.repositories.AddressRepository;
+import com.ecommerce.repositories.CategoryRepository;
+import com.ecommerce.repositories.CityRepository;
+import com.ecommerce.repositories.OrderItemRepository;
+import com.ecommerce.repositories.OrdersRepository;
+import com.ecommerce.repositories.PaymentRepository;
+import com.ecommerce.repositories.ProductRepository;
+import com.ecommerce.repositories.StateRepository;
+import com.ecommerce.repositories.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +50,10 @@ public class Installation implements CommandLineRunner {
     private OrdersRepository ordersRepository;
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    public Installation() {
+    }
+
     @Override
     public void run(String... args) throws Exception {
 
