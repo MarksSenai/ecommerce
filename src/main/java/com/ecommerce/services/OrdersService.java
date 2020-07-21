@@ -18,6 +18,5 @@ public class OrdersService {
         Optional<Orders> order = ordersRepository.findById(id);
         return order.orElseThrow(() -> new ObjectNotFoundException("Pedido não encontrado! id: " +
                 id + " Tipo" + Orders.class.getName()));
-
     }
 }

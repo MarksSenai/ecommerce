@@ -1,6 +1,7 @@
 package com.ecommerce.services;
 
 import com.ecommerce.domains.Category;
+import com.ecommerce.dto.CategoryDTO;
 import com.ecommerce.repositories.CategoryRepository;
 import com.ecommerce.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,15 @@ public class CategoryService {
 
     public Category createCategory(Category category) {
         return categoryRep.save(category);
+    }
+
+    public Category updateCategory(Category category) {
+        findCategoryById(category.getId());
+        return categoryRep.save(category);
+    }
+
+    public Category fromDTO(CategoryDTO categoryDTO) {
+        return new Category(categoryDTO.getId(), categoryDTO.getName());
     }
 
 }
