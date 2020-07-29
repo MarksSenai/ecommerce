@@ -1,5 +1,6 @@
 package com.ecommerce.domains;
 
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToMany;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,6 @@ public class Category implements Serializable {
     private Long id;
     private String name;
 
-    @JsonManagedReference
     @ManyToMany(mappedBy = "categories")
     private List<Product> products = new ArrayList<>();
 
@@ -57,8 +58,6 @@ public class Category implements Serializable {
         this.products = products;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,6 +70,4 @@ public class Category implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
-
-
 }

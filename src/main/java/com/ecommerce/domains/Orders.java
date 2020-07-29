@@ -22,12 +22,10 @@ public class Orders implements Serializable {
     @JsonFormat(pattern="dd/MM/yyyy HH:mm")
     private Date instant;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name= "user_id")
     private User user;
 
-    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Payment payment;
 

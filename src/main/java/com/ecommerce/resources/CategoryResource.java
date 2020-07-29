@@ -4,7 +4,10 @@ import com.ecommerce.domains.Category;
 import com.ecommerce.dto.CategoryDTO;
 import com.ecommerce.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +22,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/categories")
+@RequestMapping(value = "/category")
 public class CategoryResource {
 
     @Autowired
@@ -28,8 +31,20 @@ public class CategoryResource {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<CategoryDTO>> findCategories() {
         List<Category> list = categoryService.findCategoriesList();
-        List<CategoryDTO> categoryDTOS = list.stream().map(obj -> new CategoryDTO(obj)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(categoryDTOS);
+        List<CategoryDTO> categoryDTOList = list.stream().map(obj ->
+                new CategoryDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(categoryDTOList);
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoryDTO>> findPages(
+            @RequestParam(value="page", defaultValue = "0") Integer page,
+            @RequestParam(value="linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value="orderBy", defaultValue = "name") String orderBy,
+            @RequestParam(value="direction", defaultValue = "ASC") String direction) {
+        Page<Category> list = categoryService.findPage(page, linesPerPage, orderBy, direction);
+        Page<CategoryDTO> categoryDTOList = list.map(obj -> new CategoryDTO(obj));
+        return ResponseEntity.ok().body(categoryDTOList);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -50,7 +65,13 @@ public class CategoryResource {
     public ResponseEntity<Category> update(@Valid @RequestBody CategoryDTO categoryDTO, @PathVariable Long id) {
         Category category = categoryService.fromDTO(categoryDTO);
         categoryDTO.setId(id);
-        categoryService.updateCategory(category);
+        categoryService.updaterCategory(category);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        categoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
