@@ -42,7 +42,13 @@ public class User implements Serializable {
         this.name = name;
         this.email = email;
         this.userCode = userCode;
-        this.userType = userType.getCod();
+        this.userType = (userType == null) ? null : userType.getCod();
+    }
+
+    public User(Long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
     }
 
     public Long getId() {
