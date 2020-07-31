@@ -44,8 +44,9 @@ public class CategoryService {
 
 
     public Category updaterCategory(Category category) {
-        findCategoryById(category.getId());
-        return categoryRep.save(category);
+        Category newCategory = findCategoryById(category.getId());
+        updateData(newCategory, category);
+        return categoryRep.save(newCategory);
     }
 
     public Category fromDTO(CategoryDTO categoryDTO) {
@@ -59,6 +60,10 @@ public class CategoryService {
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Não é possível excluir uma categoria que possua produtos cadastrados");
         }
+    }
+
+    private void updateData(Category newCategory, Category category){
+        newCategory.setName(category.getName());
     }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class UserService {
         return userRepository.findAll(pageRequest);
     }
 
+    @Transactional
     public User createUser(User user) {
         user.setId(null);
         return userRepository.save(user);
