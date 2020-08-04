@@ -10,6 +10,7 @@ import com.ecommerce.domains.Category;
 import com.ecommerce.domains.User;
 import com.ecommerce.dto.CategoryDTO;
 import com.ecommerce.dto.UserDTO;
+import com.ecommerce.dto.UserNewDTO;
 import com.ecommerce.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,9 +53,18 @@ public class UserResource {
         return ResponseEntity.ok().body(userService.findUserById(id));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<User> create(@Valid @RequestBody UserDTO categoryDTO) {
-        User category = userService.fromDTO(categoryDTO);
+//    @RequestMapping(method = RequestMethod.POST)
+//    public ResponseEntity<User> create(@Valid @RequestBody UserDTO categoryDTO) {
+//        User category = userService.fromDTO(categoryDTO);
+//        category = userService.createUser(category);
+//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path("/{id}").buildAndExpand(category.getId()).toUri();
+//        return ResponseEntity.created(uri).build();
+//    }
+
+    @RequestMapping(value = "",method = RequestMethod.POST)
+    public ResponseEntity<User> insert(@Valid @RequestBody UserNewDTO userNewDTO) {
+        User category = userService.fromDTO(userNewDTO);
         category = userService.createUser(category);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(category.getId()).toUri();

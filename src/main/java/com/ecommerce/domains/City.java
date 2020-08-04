@@ -23,9 +23,10 @@ public class City implements Serializable {
     }
 
     public City(Long id, String name, State state) {
+        super();
         this.id = id;
-        this.name = name;
-        this.state = state;
+        this.name = (name == null) ? null : name;
+        this.state = (state == state) ? null : state;
     }
 
     public Long getId() {

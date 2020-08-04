@@ -1,7 +1,12 @@
 package com.ecommerce.services;
 
+import com.ecommerce.domains.Address;
+import com.ecommerce.domains.City;
 import com.ecommerce.domains.User;
+import com.ecommerce.domains.enums.UserType;
 import com.ecommerce.dto.UserDTO;
+import com.ecommerce.dto.UserNewDTO;
+import com.ecommerce.repositories.AddressRepository;
 import com.ecommerce.repositories.UserRepository;
 import com.ecommerce.services.exceptions.DataIntegrityException;
 import com.ecommerce.services.exceptions.ObjectNotFoundException;
@@ -21,6 +26,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     public List<User> findUsers() {
         return userRepository.findAll();
@@ -45,7 +53,9 @@ public class UserService {
     @Transactional
     public User createUser(User user) {
         user.setId(null);
-        return userRepository.save(user);
+        userRepository.save(user);
+        addressRepository.saveAll(user.getAddressList());
+        return user;
     }
 
 
@@ -55,8 +65,25 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public User fromDTO(UserDTO userDTO) {
-        return new User(userDTO.getId(), userDTO.getName(), userDTO.getEmail(), null, null);
+    public User fromDTO(UserDTO dto) {
+        return new User(dto.getId(), dto.getName(), dto.getEmail(), null, null);
+    }
+
+    public User fromDTO(UserNewDTO dto) {
+        User user = new User(null, dto.getName(),
+                dto.getEmail(), dto.getUserCode(), UserType.toEnum(dto.getUserType()));
+        City city = new City(dto.getCityId(), null, null);
+        Address  address = new Address(null, dto.getPlace(),
+                dto.getNumber(), dto.getComplement(), dto.getNeighborhood(), dto.getPostCode(), user, city);
+        user.getAddressList().add(address);
+        user.getPhones().add(dto.getPhone1());
+        if (dto.getPhone2() != null) {
+            user.getPhones().add(dto.getPhone2());
+        }
+        if (dto.getPhone3() != null) {
+            user.getPhones().add(dto.getPhone3());
+        }
+        return user;
     }
 
     public void deleteById(Long id) {

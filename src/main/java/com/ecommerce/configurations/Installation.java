@@ -103,9 +103,9 @@ public class Installation implements CommandLineRunner {
 
         u1.getPhones().addAll(Arrays.asList("213225566", "254136554"));
 
-        Address ad1 = new Address(null, "Rua 40", "300", "Jardins",
+        Address ad1 = new Address(null, "Rua 40", "300", "Apt 01", "Jardins",
                 "326598", u1, ct1);
-        Address ad2 = new Address(null, "Rua 60", "300", "Laranjeiras",
+        Address ad2 = new Address(null, "Rua 60", "305", "Apt 03", "Laranjeiras",
                 "326599", u1, ct1);
 
         u1.getAddressList().addAll(Arrays.asList(ad1, ad2));

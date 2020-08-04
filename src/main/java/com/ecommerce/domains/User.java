@@ -1,9 +1,7 @@
 package com.ecommerce.domains;
 
 import com.ecommerce.domains.enums.UserType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
