@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String userCode;
     private Integer userType;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Address> addressList = new ArrayList<>();
 
     @ElementCollection

@@ -36,8 +36,8 @@ public class UserService {
 
     public User findUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! id" +
-                id + "Tipo: " + User.class.getName()));
+        return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! id: " +
+                id + ", Tipo: " + User.class.getName()));
     }
 
     public List<User> findCategoriesList() {
