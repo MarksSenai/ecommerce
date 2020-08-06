@@ -7,12 +7,21 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.ecommerce.services.validation.UserInsert;
+
+@UserInsert
 public class UserNewDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
+    @NotEmpty(message="Preenchimento de nome obrigatório!")
+    @Length(min = 5, max=120, message = "Tamanho deve ser entre 5 e 120 caracteres")
     private String name;
+
+    @NotEmpty(message="Preenchimento de e-mail obrigatório!")
+    @Email(message="Email inválido")
     private String email;
+
+    @NotEmpty(message="Preenchimento obrigatório!")
     private String userCode;
     private Integer userType;
 
