@@ -18,7 +18,7 @@ services:
         networks:
             - ecommerce-network 
     ecommerce:
-        image: markstech/ecommerce-back
+        image: markstech/ecommerce
         restart: always
         build: ./ecommerce
         working_dir: /ecommerce
@@ -26,14 +26,14 @@ services:
             TZ: America/Sao_Paulo
             SPRING_BOOT_ENVIRONMENT: Production
         volumes: 
-            - ./ecommerce: /ecommerce
-            - ~/.m2
+            - ./ecommerce:/ecommerce
+            - ~/.m2:/root/.m2
         ports: 
             - "80880:8080"
         command: mvn clean spring-boot:run
         links: 
             - db
-        depends-on:
+        depends_on:
             - db
         networks:
             - ecommerce-network 
