@@ -11,8 +11,7 @@ public class ProductDTO implements Serializable {
     private String name;
     private Double price;
 
-    public ProductDTO() {
-    }
+    public ProductDTO() {}
 
     public ProductDTO(Product product) {
         id = product.getId();
