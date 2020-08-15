@@ -2,7 +2,7 @@ language: bash
 services: docker
 before_install: 
     - cd ecommerce
-    - echo "We are in the Docker folder!"
+    - echo "We are in Docker folder!"
 script:
     - docker-compose build
 before_deploy:
