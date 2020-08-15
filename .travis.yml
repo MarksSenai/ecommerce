@@ -10,8 +10,8 @@ before_deploy:
 deploy:
     provider: script
     script:
-        docker push MarksSenai/ecommerce;
-        docker push MarksSenai/ecommerce-db;
+        docker push markslabs/ecommerce;
+        docker push markslabs/ecommerce-db;
     on: 
         branch: master
 notifications: false
