@@ -14,7 +14,7 @@ services:
             MYSQL_PASSWORD: D0ck3r@2020
             MYSQL_DATABASE: ecommerce
         ports: 
-            - "3308:3308"
+            - "3308:3306"
         networks:
             - ecommerce-network 
     ecommerce:
@@ -29,7 +29,7 @@ services:
             - ./ecommerce:/ecommerce
             - ~/.m2:/root/.m2
         ports: 
-            - "80880:8080"
+            - "8080:8080"
         command: mvn clean spring-boot:run
         links: 
             - db
