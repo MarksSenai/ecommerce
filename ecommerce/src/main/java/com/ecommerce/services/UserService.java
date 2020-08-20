@@ -3,7 +3,6 @@ package com.ecommerce.services;
 import com.ecommerce.domains.Address;
 import com.ecommerce.domains.City;
 import com.ecommerce.domains.User;
-import com.ecommerce.domains.enums.UserType;
 import com.ecommerce.dto.UserDTO;
 import com.ecommerce.dto.UserNewDTO;
 import com.ecommerce.repositories.AddressRepository;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +29,9 @@ public class UserService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> findUsers() {
         return userRepository.findAll();
@@ -66,12 +69,12 @@ public class UserService {
     }
 
     public User fromDTO(UserDTO dto) {
-        return new User(dto.getId(), dto.getName(), dto.getEmail(), null, null);
+        return new User(dto.getId(), dto.getName(), dto.getEmail(), null, null, null);
     }
 
     public User fromDTO(UserNewDTO dto) {
         User user = new User(null, dto.getName(),
-                dto.getEmail(), dto.getUserCode(), UserType.toEnum(dto.getUserType()));
+                dto.getEmail(), dto.getUserCode(), passwordEncoder.encode(dto.getPassword()), dto.getProfiles());
         City city = new City(dto.getCityId(), null, null);
         Address  address = new Address(null, dto.getPlace(),
                 dto.getNumber(), dto.getComplement(), dto.getNeighborhood(), dto.getPostCode(), user, city);

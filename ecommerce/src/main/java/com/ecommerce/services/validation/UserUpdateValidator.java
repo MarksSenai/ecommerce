@@ -12,12 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.ecommerce.domains.User;
-import com.ecommerce.domains.enums.UserType;
 import com.ecommerce.dto.UserDTO;
-import com.ecommerce.dto.UserNewDTO;
 import com.ecommerce.repositories.UserRepository;
 import com.ecommerce.resources.exceptions.FieldMessage;
-import com.ecommerce.services.validation.utils.BR;
 
 public class UserUpdateValidator implements ConstraintValidator<UserUpdate, UserDTO> {
 

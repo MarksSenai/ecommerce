@@ -12,7 +12,6 @@ import com.ecommerce.domains.Product;
 import com.ecommerce.domains.State;
 import com.ecommerce.domains.User;
 import com.ecommerce.domains.enums.PaymentStatus;
-import com.ecommerce.domains.enums.UserType;
 import com.ecommerce.repositories.AddressRepository;
 import com.ecommerce.repositories.CategoryRepository;
 import com.ecommerce.repositories.CityRepository;
@@ -26,6 +25,7 @@ import com.ecommerce.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -50,6 +50,9 @@ public class Installation implements CommandLineRunner {
     private OrdersRepository ordersRepository;
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     public Installation() {
     }
@@ -115,8 +118,10 @@ public class Installation implements CommandLineRunner {
         stateRepository.saveAll(Arrays.asList(std1, std2));
         cityRepository.saveAll(Arrays.asList(ct1, ct2, ct3, ct4));
 
+        String password = passwordEncoder.encode("Test@123");
+
         User u1 = new User(null, "Mary of Help", "maria3@db.com",
-                "2254879642", UserType.CLIENT_PERSONAL_ENTITY);
+                "2254879642", password, 1);
 
         u1.getPhones().addAll(Arrays.asList("213225566", "254136554"));
 

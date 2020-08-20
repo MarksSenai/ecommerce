@@ -1,12 +1,16 @@
 package com.ecommerce.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.ecommerce.domains.enums.Profile;
 import com.ecommerce.services.validation.UserInsert;
 
 @UserInsert
@@ -23,13 +27,15 @@ public class UserNewDTO implements Serializable {
 
     @NotEmpty(message="Preenchimento obrigatório!")
     private String userCode;
-    private Integer userType;
+
+    private Integer profiles;
 
     private String place;
     private String number;
     private String neighborhood;
     private String postCode;
     private String complement;
+    private String password;
 
     private String phone1;
     private String phone2;
@@ -62,14 +68,6 @@ public class UserNewDTO implements Serializable {
 
     public void setUserCode(String userCode) {
         this.userCode = userCode;
-    }
-
-    public Integer getUserType() {
-        return userType;
-    }
-
-    public void setUserType(Integer userType) {
-        this.userType = userType;
     }
 
     public String getPlace() {
@@ -112,6 +110,14 @@ public class UserNewDTO implements Serializable {
         this.complement = complement;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPhone1() {
         return phone1;
     }
@@ -142,5 +148,13 @@ public class UserNewDTO implements Serializable {
 
     public void setCityId(Long cityId) {
         this.cityId = cityId;
+    }
+
+    public Integer getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(Integer profiles) {
+        this.profiles = profiles;
     }
 }

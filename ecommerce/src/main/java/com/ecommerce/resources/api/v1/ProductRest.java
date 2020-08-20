@@ -1,4 +1,4 @@
-package com.ecommerce.resources;
+package com.ecommerce.resources.api.v1;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ import com.ecommerce.resources.utils.URL;
 import com.ecommerce.services.ProductService;
 
 @RestController
-@RequestMapping(value = "/products")
-public class ProductResource {
+@RequestMapping(RestPath.BASE_PATH_V1 +  "/products")
+public class ProductRest {
 
     @Autowired
     private ProductService productService;

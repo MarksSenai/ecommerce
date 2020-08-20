@@ -1,4 +1,4 @@
-package com.ecommerce.resources;
+package com.ecommerce.resources.api.v1;
 
 import com.ecommerce.domains.Orders;
 import com.ecommerce.services.OrdersService;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/orders")
-public class OrdersResource {
+@RequestMapping(RestPath.BASE_PATH_V1 +  "/orders")
+public class OrdersRest {
 
     @Autowired
     private OrdersService ordersService;

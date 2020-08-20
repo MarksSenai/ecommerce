@@ -29,7 +29,7 @@ import com.ecommerce.domains.Product;
 import com.ecommerce.domains.State;
 import com.ecommerce.domains.User;
 import com.ecommerce.domains.enums.PaymentStatus;
-import com.ecommerce.domains.enums.UserType;
+import com.ecommerce.domains.enums.Profile;
 
 @Service
 public class DBService {
@@ -113,7 +113,7 @@ public class DBService {
                 cityRepository.saveAll(Arrays.asList(ct1, ct2, ct3, ct4));
 
                 User u1 = new User(null, "Mary of Help", "maria3@db.com",
-                        "2254879642", UserType.CLIENT_PERSONAL_ENTITY);
+                        "2254879642", "Test@123", 3);
 
                 u1.getPhones().addAll(Arrays.asList("213225566", "254136554"));
 

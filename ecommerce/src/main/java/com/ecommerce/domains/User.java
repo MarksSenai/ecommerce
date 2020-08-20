@@ -1,11 +1,12 @@
 package com.ecommerce.domains;
 
-import com.ecommerce.domains.enums.UserType;
+import com.ecommerce.domains.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class User implements Serializable {
@@ -15,10 +16,10 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
     private String email;
     private String userCode;
-    private Integer userType;
+    private String password;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Address> addressList = new ArrayList<>();
@@ -27,6 +28,10 @@ public class User implements Serializable {
     @CollectionTable(name = "phone")
     private Set<String> phones = new HashSet<>();
 
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name="profile")
+    private Set<Integer> profiles = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Orders> orders = new ArrayList<>();
@@ -34,15 +39,20 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String name, String email, String userCode, UserType userType) {
+    public User(Profile profile) {
+        addProfile(profile);
+    }
+
+
+    public User(Long id, String name, String email, String userCode, String password, Integer profile) {
         super();
         this.id = id;
         this.name = name;
         this.email = email;
         this.userCode = userCode;
-        this.userType = (userType == null) ? null : userType.getCod();
+        this.password = password;
+        profiles.add(profile);
     }
-
     public User(Long id, String name, String email) {
         this.id = id;
         this.name = name;
@@ -81,12 +91,8 @@ public class User implements Serializable {
         this.userCode = userCode;
     }
 
-    public UserType getUserType() {
-        return UserType.toEnum(userType);
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType.getCod();
+    public Set<Profile> getProfile() {
+        return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
     }
 
     public List<Address> getAddressList() {
@@ -111,6 +117,18 @@ public class User implements Serializable {
 
     public void setOrders(List<Orders> orders) {
         this.orders = orders;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void addProfile(Profile profile) {
+        profiles.add(profile.getCod());
     }
 
     @Override

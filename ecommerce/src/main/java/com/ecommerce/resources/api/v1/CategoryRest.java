@@ -1,4 +1,4 @@
-package com.ecommerce.resources;
+package com.ecommerce.resources.api.v1;
 
 import com.ecommerce.domains.Category;
 import com.ecommerce.dto.CategoryDTO;
@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/categories")
-public class CategoryResource {
+@RequestMapping(RestPath.BASE_PATH_V1 + "/categories")
+public class CategoryRest {
 
     @Autowired
     private CategoryService categoryService;

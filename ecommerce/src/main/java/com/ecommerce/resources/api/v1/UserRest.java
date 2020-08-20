@@ -1,4 +1,4 @@
-package com.ecommerce.resources;
+package com.ecommerce.resources.api.v1;
 
 import java.net.URI;
 import java.util.List;
@@ -6,9 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.ecommerce.domains.Category;
 import com.ecommerce.domains.User;
-import com.ecommerce.dto.CategoryDTO;
 import com.ecommerce.dto.UserDTO;
 import com.ecommerce.dto.UserNewDTO;
 import com.ecommerce.services.UserService;
@@ -24,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserResource {
+@RequestMapping(RestPath.BASE_PATH_V1 + "/users")
+public class UserRest {
 
     @Autowired
     private UserService userService;

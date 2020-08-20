@@ -1,6 +1,6 @@
 package com.ecommerce.domains.enums;
 
-public enum UserType {
+public enum Profile {
 
     SYSTEM_ADMIN(1, "Administrador do sistema"),
     USER_ADMIN(2, "Usuário administrador"),
@@ -10,7 +10,7 @@ public enum UserType {
     private int cod;
     private String description;
 
-    private UserType(int cod, String description) {
+    private Profile(int cod, String description) {
         this.cod = cod;
         this.description = description;
     }
@@ -23,12 +23,12 @@ public enum UserType {
         return description;
     }
 
-    public static UserType toEnum(Integer cod) {
+    public static Profile toEnum(Integer cod) {
         if (cod == null) {
             return null;
         }
 
-        for (UserType ct : UserType.values()) {
+        for (Profile ct : Profile.values()) {
             if (cod.equals(ct.getCod())) {
                 return  ct;
             }

@@ -9,7 +9,7 @@ services:
             dockerfile: Dockerfile
         environment: 
             TZ: America/Sao_Paulo
-            MYSQL_ROOT_PASSWORD: D0ck3r@2020 
+            MYSQL_ROOT_PASSWORD: D0ck3r2020 
             MYSQL_USER: docker
             MYSQL_PASSWORD: D0ck3r@2020
             MYSQL_DATABASE: ecommerce

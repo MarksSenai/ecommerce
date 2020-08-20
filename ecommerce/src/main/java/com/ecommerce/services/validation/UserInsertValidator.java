@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ecommerce.domains.User;
-import com.ecommerce.domains.enums.UserType;
+import com.ecommerce.domains.enums.Profile;
 import com.ecommerce.dto.UserNewDTO;
 import com.ecommerce.repositories.UserRepository;
 import com.ecommerce.resources.exceptions.FieldMessage;
@@ -26,11 +26,11 @@ public class UserInsertValidator implements ConstraintValidator<UserInsert, User
     public boolean isValid(UserNewDTO objDTO, ConstraintValidatorContext context) {
         List<FieldMessage> list = new ArrayList<>();
         // inclua os testes aqui, inserindo erros na lista
-        if (objDTO.getUserType().equals((UserType.CLIENT_PERSONAL_ENTITY).getCod()) &&
+        if (objDTO.getProfiles().equals((Profile.CLIENT_PERSONAL_ENTITY).getCod()) &&
                 !BR.isValidCPF(objDTO.getUserCode())) {
             list.add(new FieldMessage("userCode", "CPF Inválido"));
         }
-        if (objDTO.getUserType().equals((UserType.CLIENT_LEGAL_ENTITY).getCod()) &&
+        if (objDTO.getProfiles().equals((Profile.CLIENT_LEGAL_ENTITY).getCod()) &&
                 !BR.isValidCNPJ(objDTO.getUserCode())) {
             list.add(new FieldMessage("userCode", "CNPJ Inválido"));
         }
@@ -42,9 +42,9 @@ public class UserInsertValidator implements ConstraintValidator<UserInsert, User
 
         User userCode = userRepository.findByUserCode(objDTO.getUserCode());
         if (userCode != null) {
-            if (objDTO.getUserType().equals(UserType.CLIENT_PERSONAL_ENTITY.getCod())) {
+            if (objDTO.getProfiles().equals(Profile.CLIENT_PERSONAL_ENTITY.getCod())) {
                 list.add(new FieldMessage("userCode", "CPF já existente!"));
-            } else if (objDTO.getUserType().equals(UserType.CLIENT_LEGAL_ENTITY.getCod())) {
+            } else if (objDTO.getProfiles().equals(Profile.CLIENT_LEGAL_ENTITY.getCod())) {
                 list.add(new FieldMessage("userCode", "CNPJ já existente!"));
             }
         }
