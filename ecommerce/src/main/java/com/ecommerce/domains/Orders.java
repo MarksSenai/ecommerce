@@ -48,6 +48,15 @@ public class Orders implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
+
+    public double getTotalValue() {
+        double sum = 0.0;
+        for (OrderItem oi : items) {
+            sum = sum + oi.getSubTotal();
+        }
+        return sum;
+    }
+
     public Long getId() {
         return id;
     }
@@ -102,6 +111,27 @@ public class Orders implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Orders orders = (Orders) o;
         return id.equals(orders.id);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Orders{");
+        sb.append("Pedido: ");
+        sb.append(getId());
+        sb.append(", Horario do pedido: ");
+        sb.append(getInstant());
+        sb.append(", Client: ");
+        sb.append(getUser().getName());
+        sb.append(", Situação do pagamento: ");
+        sb.append(getPayment().getStatus().getDescription());
+        sb.append("\nDetalhes:\n");
+        for (OrderItem oi : getItems()) {
+            sb.append(oi.toString());
+        }
+        sb.append("Valor total: ");
+        sb.append(getTotalValue());
+
+        return sb.toString();
     }
 
     @Override

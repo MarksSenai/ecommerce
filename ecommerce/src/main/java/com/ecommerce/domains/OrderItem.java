@@ -30,6 +30,10 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    public double getSubTotal() {
+        return (price - discount) * quantity;
+    }
+
     @JsonIgnore
     public Orders getOrder() {
         return id.getOrder();
@@ -72,11 +76,35 @@ public class OrderItem implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderItem orderItem = (OrderItem) o;
-        return Objects.equals(id, orderItem.id);
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        OrderItem orderItem = (OrderItem) obj;
+        if (id == null) {
+            if (orderItem.id != null)
+                return false;
+        } else if (!id.equals(orderItem.id))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Produto: ");
+        sb.append(getProduct().getName());
+        sb.append(", Quantidade: ");
+        sb.append(getQuantity());
+        sb.append(", Preço unitário");
+        sb.append(getPrice());
+        sb.append(", Subtotal: ");
+        sb.append(getSubTotal());
+        sb.append("\n");
+        return sb.toString();
     }
 
     @Override

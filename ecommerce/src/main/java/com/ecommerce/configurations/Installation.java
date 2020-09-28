@@ -22,6 +22,7 @@ import com.ecommerce.repositories.ProductRepository;
 import com.ecommerce.repositories.StateRepository;
 import com.ecommerce.repositories.UserRepository;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -59,6 +60,7 @@ public class Installation implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
 
         Category cat1 = new Category(null, "Informatica");
         Category cat2 = new Category(null, "Escritórioo");
@@ -119,9 +121,17 @@ public class Installation implements CommandLineRunner {
         cityRepository.saveAll(Arrays.asList(ct1, ct2, ct3, ct4));
 
         String password = passwordEncoder.encode("Test@123");
+        String email = "";
 
-        User u1 = new User(null, "Mary of Help", "maria3@db.com",
-                "2254879642", password, 1);
+        if (null == userRepository.findByEmail("maria3@db.com")) {
+            email = "maria3@db.com";
+        } else {
+            email = "maria2@db.com";
+        }
+
+
+        User u1 = new User(null, "Mary of Help", email,
+                "2254879642", password, 3);
 
         u1.getPhones().addAll(Arrays.asList("213225566", "254136554"));
 
@@ -165,4 +175,5 @@ public class Installation implements CommandLineRunner {
 
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3));
     }
+
 }
