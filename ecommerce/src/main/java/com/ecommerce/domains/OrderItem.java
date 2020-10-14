@@ -92,20 +92,20 @@ public class OrderItem implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Produto: ");
-        sb.append(getProduct().getName());
-        sb.append(", Quantidade: ");
-        sb.append(getQuantity());
-        sb.append(", Preço unitário");
-        sb.append(getPrice());
-        sb.append(", Subtotal: ");
-        sb.append(getSubTotal());
-        sb.append("\n");
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("Produto: ");
+//        sb.append(getProduct().getName());
+//        sb.append(", Quantidade: ");
+//        sb.append(getQuantity());
+//        sb.append(", Preço unitário");
+//        sb.append(getPrice());
+//        sb.append(", Subtotal: ");
+//        sb.append(getSubTotal());
+//        sb.append("\n");
+//        return sb.toString();
+//    }
 
     @Override
     public int hashCode() {

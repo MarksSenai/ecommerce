@@ -11,7 +11,7 @@ public class CardPayment extends Payment{
     private static final long serialVersionUID = 1L;
 
     private Integer numberOfInstallments;
-0
+
     public CardPayment() {
     }
 

@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -29,13 +31,12 @@ public class Orders implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Payment payment;
 
-
     @ManyToOne
     @JoinColumn(name = "delivery_address_id")
     private Address deliveryAddress;
 
     @OneToMany(mappedBy = "id.order")
-    private Set<OrderItem> items = new HashSet<>();
+    private List<OrderItem> items = new ArrayList<>();
 
     public Orders() {
     }
@@ -47,7 +48,6 @@ public class Orders implements Serializable {
         this.user = user;
         this.deliveryAddress = deliveryAddress;
     }
-
 
     public double getTotalValue() {
         double sum = 0.0;
@@ -97,12 +97,12 @@ public class Orders implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public Set<OrderItem> getItems() {
+    public List<OrderItem> getItems() {
         return items;
     }
 
-    public void setItems(Set<OrderItem> itens) {
-        this.items = itens;
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 
     @Override

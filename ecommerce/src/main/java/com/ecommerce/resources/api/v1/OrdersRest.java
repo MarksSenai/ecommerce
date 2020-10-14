@@ -5,6 +5,7 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import com.ecommerce.domains.Orders;
+import com.ecommerce.dto.OrdersDTO;
 import com.ecommerce.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,8 @@ public class OrdersRest {
     public ResponseEntity<Void> insert(@Valid @RequestBody Orders order) {
         ordersService.insert(order);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(order.getId()).toUri();
+                .path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).build();
+        return null;
     }
 }
