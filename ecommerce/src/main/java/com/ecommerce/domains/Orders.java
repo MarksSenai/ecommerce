@@ -1,15 +1,22 @@
 package com.ecommerce.domains;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -36,7 +43,7 @@ public class Orders implements Serializable {
     private Address deliveryAddress;
 
     @OneToMany(mappedBy = "id.order")
-    private List<OrderItem> items = new ArrayList<>();
+    private Set<OrderItem> items = new HashSet<>();
 
     public Orders() {
     }
@@ -97,12 +104,12 @@ public class Orders implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public List<OrderItem> getItems() {
+    public Set<OrderItem> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
+    public void setItems(Set<OrderItem> itens) {
+        this.items = itens;
     }
 
     @Override
@@ -115,21 +122,23 @@ public class Orders implements Serializable {
 
     @Override
     public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         final StringBuilder sb = new StringBuilder("Orders{");
         sb.append("Pedido: ");
         sb.append(getId());
         sb.append(", Horario do pedido: ");
-        sb.append(getInstant());
+        sb.append(sf.format(getInstant()));
         sb.append(", Client: ");
         sb.append(getUser().getName());
         sb.append(", Situação do pagamento: ");
         sb.append(getPayment().getStatus().getDescription());
-        sb.append("\nDetalhes:\n");
+        sb.append("\nDetalhes: \n");
         for (OrderItem oi : getItems()) {
             sb.append(oi.toString());
         }
         sb.append("Valor total: ");
-        sb.append(getTotalValue());
+        sb.append(nf.format(getTotalValue()));
 
         return sb.toString();
     }

@@ -29,11 +29,10 @@ public class OrdersRest {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody Orders order) {
-        ordersService.insert(order);
+    public ResponseEntity<Void> insert(@Valid @RequestBody OrdersDTO dto) {
+        Orders order = ordersService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(dto.getId()).toUri();
+                .path("/{id}").buildAndExpand(order.getId()).toUri();
         return ResponseEntity.created(uri).build();
-        return null;
     }
 }

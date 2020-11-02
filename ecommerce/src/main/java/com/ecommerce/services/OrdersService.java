@@ -2,8 +2,11 @@ package com.ecommerce.services;
 
 import com.ecommerce.domains.BilletPayment;
 import com.ecommerce.domains.OrderItem;
+import com.ecommerce.domains.OrderItemPK;
 import com.ecommerce.domains.Orders;
+import com.ecommerce.domains.Product;
 import com.ecommerce.domains.enums.PaymentStatus;
+import com.ecommerce.dto.OrderItemDTO;
 import com.ecommerce.dto.OrdersDTO;
 import com.ecommerce.repositories.OrderItemRepository;
 import com.ecommerce.repositories.OrdersRepository;
@@ -44,7 +47,8 @@ public class OrdersService {
     }
 
     @Transactional
-    public Orders insert(Orders order) {
+    public Orders insert(OrdersDTO dto) {
+        Orders order = fromDTO(dto);
 
         if (order.getPayment() instanceof BilletPayment) {
             BilletPayment billetPayment = (BilletPayment) order.getPayment();
@@ -70,8 +74,19 @@ public class OrdersService {
         order.setPayment(dto.getPayment());
         order.getPayment().setStatus(PaymentStatus.PENDING);
         order.getPayment().setOrder(order);
-//        order.setItems(dto.getItems());
 
+        Set<OrderItem> items = new HashSet<>();
+        for (OrderItemDTO list : dto.getItems()) {
+            OrderItem oi = new OrderItem();
+            OrderItemPK pk = new OrderItemPK();
+            Product product = new Product();
+            product.setId(list.getId());
+            pk.setProduct(product);
+            oi.setId(pk);
+            oi.setQuantity(list.getQuantity());
+            items.add(oi);
+        }
+        order.setItems(items);
         return order;
     }
 

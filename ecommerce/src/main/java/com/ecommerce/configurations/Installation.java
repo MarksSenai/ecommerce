@@ -22,7 +22,6 @@ import com.ecommerce.repositories.ProductRepository;
 import com.ecommerce.repositories.StateRepository;
 import com.ecommerce.repositories.UserRepository;
 
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -126,7 +125,7 @@ public class Installation implements CommandLineRunner {
         if (null == userRepository.findByEmail("maria3@db.com")) {
             email = "maria3@db.com";
         } else {
-            email = "maria2@db.com";
+            email = "maria2"+ System.currentTimeMillis() + "@db.com";
         }
 
 

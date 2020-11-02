@@ -19,7 +19,7 @@ public class OrdersDTO implements Serializable {
     private User user;
     private Payment payment;
     private Address deliveryAddress;
-    private List<OrderItem> items = new ArrayList<>();
+    private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrdersDTO() {
     }
@@ -34,7 +34,7 @@ public class OrdersDTO implements Serializable {
 
     public double getTotalValue() {
         double sum = 0.0;
-        for (OrderItem oi : items) {
+        for (OrderItemDTO oi : items) {
             sum = sum + oi.getSubTotal();
         }
         return sum;
@@ -72,11 +72,11 @@ public class OrdersDTO implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public List<OrderItem> getItems() {
+    public List<OrderItemDTO> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderItem> items) {
+    public void setItems(List<OrderItemDTO> items) {
         this.items = items;
     }
 }

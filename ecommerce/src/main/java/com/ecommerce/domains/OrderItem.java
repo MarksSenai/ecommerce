@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -92,20 +94,21 @@ public class OrderItem implements Serializable {
         return true;
     }
 
-//    @Override
-//    public String toString() {
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("Produto: ");
-//        sb.append(getProduct().getName());
-//        sb.append(", Quantidade: ");
-//        sb.append(getQuantity());
-//        sb.append(", Preço unitário");
-//        sb.append(getPrice());
-//        sb.append(", Subtotal: ");
-//        sb.append(getSubTotal());
-//        sb.append("\n");
-//        return sb.toString();
-//    }
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        StringBuilder sb = new StringBuilder();
+        sb.append("Produto: ");
+        sb.append(getProduct().getName());
+        sb.append(", Quantidade: ");
+        sb.append(getQuantity());
+        sb.append(", Preço unitário: ");
+        sb.append(nf.format(getPrice()));
+        sb.append(", Subtotal: ");
+        sb.append(nf.format(getSubTotal()));
+        sb.append("\n");
+        return sb.toString();
+    }
 
     @Override
     public int hashCode() {
