@@ -13,6 +13,8 @@ import com.ecommerce.repositories.OrdersRepository;
 import com.ecommerce.repositories.PaymentRepository;
 import com.ecommerce.repositories.ProductRepository;
 import com.ecommerce.services.exceptions.ObjectNotFoundException;
+import com.ecommerce.services.interfaces.EmailService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +41,8 @@ public class OrdersService {
     private BilletService billetService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private EmailService emailService;
 
     public Orders findOrderById(Long id) {
         Optional<Orders> order = ordersRepository.findById(id);
@@ -63,7 +67,7 @@ public class OrdersService {
             oi.getId().setOrder(order);
         }
         orderItemRepository.saveAll(order.getItems());
-        System.out.println("Orders: " + order);
+        emailService.sendOrderConfirmationEmail(order);
         return  order;
     }
 

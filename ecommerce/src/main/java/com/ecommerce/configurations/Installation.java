@@ -122,8 +122,8 @@ public class Installation implements CommandLineRunner {
         String password = passwordEncoder.encode("Test@123");
         String email = "";
 
-        if (null == userRepository.findByEmail("maria3@db.com")) {
-            email = "maria3@db.com";
+        if (null == userRepository.findByEmail("marks.fintech@gmail.com")) {
+            email = "marks.fintech@gmail.com";
         } else {
             email = "maria2"+ System.currentTimeMillis() + "@db.com";
         }
