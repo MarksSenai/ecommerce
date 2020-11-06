@@ -1,5 +1,8 @@
 package com.ecommerce.services;
 
+import javax.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,20 @@ public class SmtpEmailService extends AbstractEmailService {
     @Autowired
     private MailSender mailSender;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
     @Override
     public void sendEmail(SimpleMailMessage message) {
         logger.info("Sending email...");
         mailSender.send(message);
+        logger.info("Email sent");
+    }
+
+    @Override
+    public void sendHtmlEmail(MimeMessage msg) {
+        logger.info("Sending html email...");
+        javaMailSender.send(msg);
         logger.info("Email sent");
     }
 }

@@ -19,6 +19,7 @@ public class OrderItem implements Serializable {
     private Double discount;
     private Integer quantity;
     private Double price;
+    private Double subTotal;
 
     public OrderItem() {
     }
@@ -30,10 +31,12 @@ public class OrderItem implements Serializable {
         this.discount = discount;
         this.quantity = quantity;
         this.price = price;
+        this.subTotal = getSubTotal();
     }
 
     public double getSubTotal() {
-        return (price - discount) * quantity;
+        this.subTotal = (price - discount) * quantity;
+        return subTotal;
     }
 
     @JsonIgnore
