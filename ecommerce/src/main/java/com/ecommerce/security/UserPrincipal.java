@@ -10,20 +10,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ecommerce.domains.User;
+import com.ecommerce.domains.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserPrincipal implements UserDetails {
 
     private Long id;
-
     private String name;
-
     @JsonIgnore
     private String email;
-
     @JsonIgnore
     private String password;
-
     private Collection<? extends GrantedAuthority> authorities;
 
     private UserPrincipal(Long id, String name, String email, String password, Collection<? extends GrantedAuthority> authorities) {
@@ -96,6 +93,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean hasRole(Profile profile) {
+        return  getAuthorities().contains(new SimpleGrantedAuthority(profile.getDescription()));
     }
 
     @Override

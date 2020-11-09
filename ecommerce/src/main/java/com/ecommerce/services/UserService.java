@@ -3,10 +3,13 @@ package com.ecommerce.services;
 import com.ecommerce.domains.Address;
 import com.ecommerce.domains.City;
 import com.ecommerce.domains.User;
+import com.ecommerce.domains.enums.Profile;
 import com.ecommerce.dto.UserDTO;
 import com.ecommerce.dto.UserNewDTO;
 import com.ecommerce.repositories.AddressRepository;
 import com.ecommerce.repositories.UserRepository;
+import com.ecommerce.security.UserPrincipal;
+import com.ecommerce.services.exceptions.AuthorizationException;
 import com.ecommerce.services.exceptions.DataIntegrityException;
 import com.ecommerce.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,10 @@ public class UserService {
     }
 
     public User findUserById(Long id) {
+        UserPrincipal principal = UserSecurityService.authenticated();
+        if (principal == null || !principal.hasRole(Profile.USER_ADMIN) && !id.equals(principal.getId())) {
+            throw new AuthorizationException("Acesso Negado");
+        }
         Optional<User> user = userRepository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! id: " +
                 id + ", Tipo: " + User.class.getName()));

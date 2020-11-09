@@ -1,5 +1,6 @@
 package com.ecommerce.resources.exceptions;
 
+import com.ecommerce.services.exceptions.AuthorizationException;
 import com.ecommerce.services.exceptions.DataIntegrityException;
 import com.ecommerce.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,14 @@ public class ResourceExceptionHandler {
         for (FieldError x : e.getBindingResult().getFieldErrors()) {
             err.addError(x.getField(), x.getDefaultMessage());
         }
+        return  ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        StandardError err = new StandardError(System.currentTimeMillis(), status.value(),
+                "Access Denied", e.getMessage(), request.getRequestURI());
         return  ResponseEntity.status(status).body(err);
     }
 }
