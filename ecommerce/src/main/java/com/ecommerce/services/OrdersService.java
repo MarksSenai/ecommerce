@@ -5,6 +5,7 @@ import com.ecommerce.domains.OrderItem;
 import com.ecommerce.domains.OrderItemPK;
 import com.ecommerce.domains.Orders;
 import com.ecommerce.domains.Product;
+import com.ecommerce.domains.User;
 import com.ecommerce.domains.enums.PaymentStatus;
 import com.ecommerce.dto.OrderItemDTO;
 import com.ecommerce.dto.OrdersDTO;
@@ -12,10 +13,16 @@ import com.ecommerce.repositories.OrderItemRepository;
 import com.ecommerce.repositories.OrdersRepository;
 import com.ecommerce.repositories.PaymentRepository;
 import com.ecommerce.repositories.ProductRepository;
+import com.ecommerce.repositories.UserRepository;
+import com.ecommerce.security.UserPrincipal;
+import com.ecommerce.services.exceptions.AuthorizationException;
 import com.ecommerce.services.exceptions.ObjectNotFoundException;
 import com.ecommerce.services.interfaces.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +44,8 @@ public class OrdersService {
     private OrderItemRepository orderItemRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private BilletService billetService;
     @Autowired
@@ -69,6 +78,18 @@ public class OrdersService {
         orderItemRepository.saveAll(order.getItems());
         emailService.sendOrderConfirmationHtmlEmail(order);
         return  order;
+    }
+
+    public Page<Orders> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        UserPrincipal userPrincipal = UserSecurityService.authenticated();
+        if (userPrincipal == null) {
+            throw new AuthorizationException("Acesso Negado");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction),
+                orderBy);
+        User user = userService.findUserById(userPrincipal.getId());
+
+        return ordersRepository.findByUser(user, pageRequest);
     }
 
     private Orders fromDTO(OrdersDTO dto) {

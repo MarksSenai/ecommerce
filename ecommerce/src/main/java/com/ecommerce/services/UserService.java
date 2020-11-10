@@ -41,10 +41,7 @@ public class UserService {
     }
 
     public User findUserById(Long id) {
-        UserPrincipal principal = UserSecurityService.authenticated();
-        if (principal == null || !principal.hasRole(Profile.USER_ADMIN) && !id.equals(principal.getId())) {
-            throw new AuthorizationException("Acesso Negado");
-        }
+        validateUserAuth(id);
         Optional<User> user = userRepository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! id: " +
                 id + ", Tipo: " + User.class.getName()));
@@ -108,5 +105,12 @@ public class UserService {
     private void updateData(User newUser, User user){
         newUser.setName(user.getName());
         newUser.setEmail(user.getEmail());
+    }
+
+    private void validateUserAuth(Long id) {
+        UserPrincipal principal = UserSecurityService.authenticated();
+        if ((principal == null) || (!principal.hasRole(Profile.USER_ADMIN) && !id.equals(principal.getId()))) {
+            throw new AuthorizationException("Acesso Negado");
+        }
     }
 }
