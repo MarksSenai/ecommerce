@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
@@ -51,14 +52,11 @@ public class UserRest {
         return ResponseEntity.ok().body(userService.findUserAuthById(id));
     }
 
-//    @RequestMapping(method = RequestMethod.POST)
-//    public ResponseEntity<User> create(@Valid @RequestBody UserDTO categoryDTO) {
-//        User category = userService.fromDTO(categoryDTO);
-//        category = userService.createUser(category);
-//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-//                .path("/{id}").buildAndExpand(category.getId()).toUri();
-//        return ResponseEntity.created(uri).build();
-//    }
+    @RequestMapping(value = "/uploadPicture", method = RequestMethod.POST)
+    public ResponseEntity<User> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
+        URI uri = userService.uploadUserProfilePicture(file);
+        return ResponseEntity.created(uri).build();
+    }
 
     @RequestMapping(value = "",method = RequestMethod.POST)
     public ResponseEntity<User> insert(@Valid @RequestBody UserNewDTO userNewDTO) {

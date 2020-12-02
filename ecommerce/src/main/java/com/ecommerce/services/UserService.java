@@ -20,7 +20,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private S3Service s3Service;
 
     public List<User> findUsers() {
         return userRepository.findAll();
@@ -88,6 +93,10 @@ public class UserService {
         User newUser = findUserById(user.getId());
         updateData(newUser, user);
         return userRepository.save(newUser);
+    }
+
+    public URI uploadUserProfilePicture(MultipartFile multipartFile) {
+        return s3Service.uploadFile(multipartFile);
     }
 
     public User fromDTO(UserDTO dto) {
