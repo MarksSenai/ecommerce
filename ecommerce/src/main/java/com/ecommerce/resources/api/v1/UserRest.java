@@ -48,7 +48,7 @@ public class UserRest {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> findUserById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(userService.findUserById(id));
+        return ResponseEntity.ok().body(userService.findUserAuthById(id));
     }
 
 //    @RequestMapping(method = RequestMethod.POST)

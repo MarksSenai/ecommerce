@@ -6,7 +6,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
 
 import com.ecommerce.domains.Orders;
-import com.ecommerce.dto.OrdersDTO;
+import com.ecommerce.domains.User;
 
 public interface EmailService {
 
@@ -14,7 +14,9 @@ public interface EmailService {
 
     void sendEmail(SimpleMailMessage message);
 
-    void sendOrderConfirmationHtmlEmail(Orders ordersDTO);
+    void sendOrderConfirmationHtmlEmail(Orders order);
 
     void sendHtmlEmail(MimeMessage msg);
+
+    void sendPasswordReseted(User user, String password);
 }

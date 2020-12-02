@@ -14,7 +14,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.ecommerce.domains.Orders;
-import com.ecommerce.dto.OrdersDTO;
+import com.ecommerce.domains.User;
 import com.ecommerce.services.interfaces.EmailService;
 
 public abstract class AbstractEmailService implements EmailService {
@@ -41,6 +41,21 @@ public abstract class AbstractEmailService implements EmailService {
         } catch (MessagingException e) {
             sendOrderConfirmationEmail(order);
         }
+    }
+
+    @Override
+    public void sendPasswordReseted(User user, String password) {
+        sendEmail(preparePasswordResetedEmail(user, password));
+    }
+
+    protected SimpleMailMessage preparePasswordResetedEmail(User user, String password) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(user.getEmail());
+        simpleMailMessage.setFrom(SENDER);
+        simpleMailMessage.setSubject("Solicitação de nova senha");
+        simpleMailMessage.setSentDate(new Date(System.currentTimeMillis()));
+        simpleMailMessage.setText("Nova senha: " + password);
+        return simpleMailMessage;
     }
 
     protected MimeMessage prepareMimeMessageFromOrder(Orders order) throws MessagingException {

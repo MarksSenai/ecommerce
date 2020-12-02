@@ -40,11 +40,23 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findUserById(Long id) {
+    public User findUserAuthById(Long id) {
         validateUserAuth(id);
         Optional<User> user = userRepository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! id: " +
                 id + ", Tipo: " + User.class.getName()));
+    }
+
+    public User findUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! id: " +
+                id + ", Tipo: " + User.class.getName()));
+    }
+
+    public User findUserByEmail(String email) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
+        return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado! email: " +
+                email + ", Tipo: " + User.class.getName()));
     }
 
     public List<User> findCategoriesList() {
@@ -67,6 +79,12 @@ public class UserService {
 
 
     public User updaterUser(User user) {
+        User newUser = findUserAuthById(user.getId());
+        updateData(newUser, user);
+        return userRepository.save(newUser);
+    }
+
+    public User updateUserPassword(User user) {
         User newUser = findUserById(user.getId());
         updateData(newUser, user);
         return userRepository.save(newUser);
@@ -94,7 +112,7 @@ public class UserService {
     }
 
     public void deleteById(Long id) {
-        findUserById(id);
+        findUserAuthById(id);
         try {
             userRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {

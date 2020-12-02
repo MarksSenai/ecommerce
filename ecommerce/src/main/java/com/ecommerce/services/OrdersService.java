@@ -87,7 +87,7 @@ public class OrdersService {
         }
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction),
                 orderBy);
-        User user = userService.findUserById(userPrincipal.getId());
+        User user = userService.findUserAuthById(userPrincipal.getId());
 
         return ordersRepository.findByUser(user, pageRequest);
     }
@@ -95,7 +95,7 @@ public class OrdersService {
     private Orders fromDTO(OrdersDTO dto) {
         Orders order = new Orders();
         order.setInstant(new Date());
-        order.setUser(userService.findUserById(dto.getUser().getId()));
+        order.setUser(userService.findUserAuthById(dto.getUser().getId()));
         order.setPayment(dto.getPayment());
         order.getPayment().setStatus(PaymentStatus.PENDING);
         order.getPayment().setOrder(order);

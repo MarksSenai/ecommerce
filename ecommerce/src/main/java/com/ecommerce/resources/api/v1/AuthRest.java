@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.dto.EmailDTO;
 import com.ecommerce.payload.JwtAuthenticationResponse;
 import com.ecommerce.payload.LoginRequest;
 import com.ecommerce.security.JwtTokenProvider;
 import com.ecommerce.security.UserPrincipal;
+import com.ecommerce.services.AuthService;
 import com.ecommerce.services.UserSecurityService;
 
 @CrossOrigin
@@ -32,12 +34,13 @@ public class AuthRest {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
-    JwtTokenProvider tokenProvider;
+    private JwtTokenProvider tokenProvider;
+    @Autowired
+    private AuthService authService;
+
 
     private final static Logger logger = Logger.getLogger(AuthRest.class.getName());
 
@@ -56,11 +59,14 @@ public class AuthRest {
 
     @PostMapping("/refreshToken")
     public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
-
         String jwt = tokenProvider.generateToken(Objects.requireNonNull(UserSecurityService.authenticated()));
-
         response.addHeader("Authorization", "Bearer " + jwt);
+        return ResponseEntity.noContent().build();
+    }
 
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<Void> forgotPassword(@Valid @RequestBody EmailDTO emailDTO) {
+        authService.resetPassword(emailDTO.getEmail());
         return ResponseEntity.noContent().build();
     }
 }

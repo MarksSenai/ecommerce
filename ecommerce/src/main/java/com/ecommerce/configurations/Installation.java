@@ -21,6 +21,7 @@ import com.ecommerce.repositories.PaymentRepository;
 import com.ecommerce.repositories.ProductRepository;
 import com.ecommerce.repositories.StateRepository;
 import com.ecommerce.repositories.UserRepository;
+import com.ecommerce.services.S3Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -52,6 +53,8 @@ public class Installation implements CommandLineRunner {
     private OrderItemRepository orderItemRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private S3Service s3Service;
 
 
     public Installation() {
@@ -173,6 +176,7 @@ public class Installation implements CommandLineRunner {
         p1.getItems().addAll(Arrays.asList(oi2));
 
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3));
+        s3Service.uploadFile("/home/rodrigop/Pictures/golfinho.jpeg");
     }
 
 }
