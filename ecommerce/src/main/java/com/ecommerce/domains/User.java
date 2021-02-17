@@ -22,6 +22,7 @@ public class User implements Serializable {
 
     private String userCode;
     private String password;
+    private String userPictureURL;
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -128,6 +129,15 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserPictureURL() {
+        return userPictureURL;
+    }
+
+    public User setUserPictureURL(String userPictureURL) {
+        this.userPictureURL = userPictureURL;
+        return this;
     }
 
     public void addProfile(Profile profile) {
